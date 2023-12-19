@@ -2,6 +2,8 @@ import tkinter as tk
 from tkinter import filedialog
 
 from utils import get_image_files
+from ranking import rank 
+from duplicate import find_and_duplicates
 
 class MyApp:
     def __init__(self, master):
@@ -79,13 +81,28 @@ class MyApp:
         finddup_state = self.finddup_var.get()
         autoedit_state = self.autoedit_var.get()
         image_paths = get_image_files(selected_path)
-
-
+        
         print(f"Selected Path: {selected_path}")
         print(f"Toggle Dots: {ranking_checkbox}")
         print(f"Checkbutton 1 State: {finddup_state}")
         print(f"Checkbutton 2 State: {autoedit_state}")
-        print(f"images: {image_paths}")
+
+        if ranking_checkbox == True:
+            print("running check")
+            image_rank_dic = rank(image_paths)
+            image_rank_dic = dict(sorted(image_rank_dic.items(), key=lambda item: item[1], reverse=True))
+            print(image_rank_dic)
+            #remove dups
+            if finddup_state == True:
+                find_and_duplicates(selected_path)
+
+            #autoedit
+
+        elif autoedit_state == True:
+            print("autoedit")
+            #find dups
+        elif finddup_state == True:
+            find_and_duplicates(image_paths)
 
 if __name__ == "__main__":
     root = tk.Tk()
