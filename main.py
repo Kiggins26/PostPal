@@ -4,6 +4,7 @@ from tkinter import filedialog
 from utils import get_image_files
 from ranking import rank 
 from duplicate import find_and_duplicates
+from editimage import edit_image
 
 class MyApp:
     def __init__(self, master):
@@ -94,13 +95,19 @@ class MyApp:
             print(image_rank_dic)
             #remove dups
             if finddup_state == True:
-                find_and_duplicates(selected_path)
+                find_and_duplicates(image_paths)
 
             #autoedit
+            if autoedit_state == True:
+                edit_image(selected_path, image_paths)
 
         elif autoedit_state == True:
             print("autoedit")
-            #find dups
+
+            if finddup_state == True:
+                find_and_duplicates(image_paths)
+            
+            edit_image(selected_path, image_paths)
         elif finddup_state == True:
             find_and_duplicates(image_paths)
 
